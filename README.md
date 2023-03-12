@@ -1,5 +1,5 @@
 # orbit-notebooks
-A collection of Jupyter notebooks and GAP programs for the Spring School
+A collection of Jupyter notebooks and Julia programs for orbit calculations
 
-[![Open in Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/gpfeiffer/orbit-notebooks/main)
+[![Open in Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/gpfeiffer/orbits-julia/main)
 
