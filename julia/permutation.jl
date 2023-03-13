@@ -52,6 +52,9 @@ function ^(perm::Perm, n::Integer)
     return perm^q * perm^q * perm^r
 end
 
+## conjugates
+^(perm::Perm, other::Perm) = other^(-1) * perm * other
+
 ## sign??
 
 ## order??
