@@ -5,7 +5,7 @@ module permutation
 import Base: length, inv, isless, one, ==, *, ^
 
 export Perm
-export degree, domain, transposition
+export degree, domain, cycles, transposition
 export p, q  # test data
 
 ##  Perm data type
@@ -31,6 +31,20 @@ isless(perm::Perm, other::Perm) = perm.list < other.list
 
 ## point under perm
 ^(x::Integer, perm::Perm) = perm.list[x]
+
+## cycles ('DFS' version:  each node i has two children: i^perm and i+1)
+function cycles(perm::Perm, x = 1, open = trues(degree(perm)), cycle = [], ccc = Array{Integer}[])
+    open != [] || return ccc
+    if open[x]
+        open[x] = false
+        push!(cycle, x) # continue cycle with x
+        cycles(perm, x^perm, open, cycle, ccc)
+    else
+        cycle == [] || push!(ccc, cycle)
+        x < length(open) && cycles(perm, x+1, open, [], ccc)
+    end
+    return ccc
+end
 
 ## inverse permutation
 function inv(perm::Perm)
