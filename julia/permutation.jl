@@ -2,11 +2,11 @@
 ##
 module permutation
 
-import Base: length, inv, isless, one, ==, *, ^
+import Base: length, inv, isless, one, sign, rand, ==, *, ^
 
 export Perm
-export degree, domain, cycles, transposition
-export p, q  # test data
+export degree, domain, cycles, shape, order, transposition, shuffle!
+export p, q, r, transpositions, ttt  # test data
 
 ##  Perm data type
 struct Perm
@@ -66,14 +66,17 @@ function ^(perm::Perm, n::Int)
     return perm^q * perm^q * perm^r
 end
 
-## conjugates
+## conjugation
 ^(perm::Perm, other::Perm) = other^(-1) * perm * other
 
-## sign??
+## shape (aka cycle structure)
+shape(perm::Perm) = sort(length.(cycles(perm)), rev=true)
 
-## order??
+## order
+order(perm::Perm) = lcm(shape(perm))
 
-## cycles??
+## sign
+sign(perm::Perm) = (-1)^(degree(perm) - length(cycles(perm)))
 
 ## transpositions
 function transposition(n::Int, j::Int, k::Int)
@@ -82,11 +85,24 @@ function transposition(n::Int, j::Int, k::Int)
     return Perm(list)
 end
 
-#transpositions(n::Int) = [transposition(n, j-1, j) for j in 2:n]
+## shuffle:  Fisher-Yates
+function shuffle!(perm::Perm)
+    n = degree(perm)
+    for k in 1:n-1
+        l = rand(k:n);
+        perm.list[[l, k]] = perm.list[[k, l]]
+    end
+    return perm
+end
+
+rand(T::Type{X}, n::Int) where X <: Perm = shuffle!(one(Perm, n))
 
 
 ## test data
+transpositions(n::Int) = [transposition(n, j-1, j) for j in 2:n]
+ttt = transpositions(20)
 p = Perm([4,2,3,1])
 q = Perm([2,3,4,1])
+r = rand(Perm, 20)
 
 end # module
