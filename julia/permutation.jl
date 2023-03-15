@@ -10,12 +10,12 @@ export p, q  # test data
 
 ##  Perm data type
 struct Perm
-    list::Array{Integer}
+    list::Array{Int}
 end
 
 ## identity
 one(perm::Perm) = Perm(domain(perm))
-one(Perm, n::Integer) = Perm(1:n)
+one(Perm, n::Int) = Perm(1:n)
 
 ## degree
 degree(perm::Perm) = length(perm.list)
@@ -30,10 +30,10 @@ domain(perm::Perm) = 1:degree(perm)
 isless(perm::Perm, other::Perm) = perm.list < other.list
 
 ## point under perm
-^(x::Integer, perm::Perm) = perm.list[x]
+^(x::Int, perm::Perm) = perm.list[x]
 
 ## cycles ('DFS' version:  each node i has two children: i^perm and i+1)
-function cycles(perm::Perm, x = 1, open = trues(degree(perm)), cycle = [], ccc = Array{Integer}[])
+function cycles(perm::Perm, x = 1, open = trues(degree(perm)), cycle = [], ccc = Array{Int}[])
     open != [] || return ccc
     if open[x]
         open[x] = false
@@ -57,7 +57,7 @@ end
 *(perm::Perm, other::Perm) = Perm(other.list[perm.list])
 
 ## power
-function ^(perm::Perm, n::Integer)
+function ^(perm::Perm, n::Int)
     n < 0 && return inv(perm)^(-n)
     n == 0 && return one(perm)
     n == 1 && return perm
@@ -76,13 +76,13 @@ end
 ## cycles??
 
 ## transpositions
-function transposition(n::Integer, j::Integer, k::Integer)
+function transposition(n::Int, j::Int, k::Int)
     list = collect(1:n)
     list[[j, k]] = [k, j]
     return Perm(list)
 end
 
-#transpositions(n::Integer) = [transposition(n, j-1, j) for j in 2:n]
+#transpositions(n::Int) = [transposition(n, j-1, j) for j in 2:n]
 
 
 ## test data
