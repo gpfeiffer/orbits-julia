@@ -2,7 +2,7 @@
 ##
 module permutation
 
-import Base: length, inv, isless, one, sign, rand, ==, *, ^
+import Base: length, inv, isless, one, sign, rand, iterate, ==, *, ^
 
 export Perm
 export degree, domain, cycles, shape, order, transposition, shuffle!
@@ -96,6 +96,10 @@ function shuffle!(perm::Perm)
 end
 
 rand(T::Type{X}, n::Int) where X <: Perm = shuffle!(one(Perm, n))
+
+##  iterate (copied from number.jl)
+iterate(x::Perm) = (x, nothing)
+iterate(x::Perm, ::Any) = nothing
 
 
 ## test data
