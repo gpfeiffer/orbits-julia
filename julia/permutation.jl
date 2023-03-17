@@ -14,8 +14,9 @@ struct Perm
 end
 
 ## identity
-one(perm::Perm) = Perm(domain(perm))
+Perm(n::Int) = Perm(1:n)
 one(Perm, n::Int) = Perm(1:n)
+one(perm::Perm) = Perm(domain(perm))
 
 ## degree
 degree(perm::Perm) = length(perm.list)
