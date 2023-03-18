@@ -39,6 +39,25 @@ in(x, o::Orbit) = x in o.elts
 ==(o::Orbit, other::Orbit) = o.elts[1] == other.elts[1]
 isless(o::Orbit, other::Orbit) = o.elts[1] < other.elts[1]
 
+## orbit with words
+function orbit_with_words(aaa, x, under)
+    list = [x]
+    words = Array{Int}[[]]
+    i = 0
+    while i < length(list)
+        i += 1
+        for k in 1:length(aaa)
+            z = under(list[i], aaa[k])
+            if !(z in list)
+                push!(list, z)
+                push!(words, onWords(words[i], k))
+            end
+        end
+    end
+    return Dict(:list => list, :words => words)
+end
+
+
 ## orbitx
 function orbitx(aaa, xxx, under)
     list = copy(xxx)

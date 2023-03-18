@@ -2,7 +2,7 @@
 ##
 module permutation
 
-import Base: length, inv, isless, one, sign, rand, iterate, ==, *, ^
+import Base: length, inv, isless, one, sign, rand, iterate, ==, *, /, ^
 
 export Perm
 export degree, domain, cycles, shape, order, transposition, shuffle!
@@ -54,8 +54,9 @@ function inv(perm::Perm)
     Perm(list)
 end
 
-## product
+## product and quotient
 *(perm::Perm, other::Perm) = Perm(other.list[perm.list])
+/(perm::Perm, other::Perm) = perm * inv(other)
 
 ## power
 function ^(perm::Perm, n::Int)
