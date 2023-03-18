@@ -57,7 +57,6 @@ function orbit_with_words(aaa, x, under)
     return Dict(:list => list, :words => words)
 end
 
-
 ## orbitx
 function orbitx(aaa, xxx, under)
     list = copy(xxx)
@@ -68,6 +67,46 @@ function orbitx(aaa, xxx, under)
         end
     end
     return list
+end
+
+## orbit with transversal
+function orbit_with_transversal(aaa, x, under)
+    list = [x]
+    reps = [aaa[1]^0]
+    i = 0
+    while i < length(list)
+        i += 1
+        for k in 1:length(aaa)
+            z = under(list[i], aaa[k])
+            if !(z in list)
+                push!(list, z)
+                push!(reps, reps[i] * aaa[k])
+            end
+        end
+    end
+    return Dict(:list => list, :reps => reps)
+end
+
+## orbit with stabilizer
+function orbit_with_stabilizer(aaa, x, under)
+    list = [x]
+    reps = [aaa[1]^0]
+    stab = []
+    i = 0
+    while i < length(list)
+        i += 1
+        for k in 1:length(aaa)
+            z = under(list[i], aaa[k])
+            l = findfirst(==(z), list)
+            if l == nothing
+                push!(list, z)
+                push!(reps, reps[i] * aaa[k])
+            else   # x^(reps[i] * a) = x^reps[l]
+                push!(stab, reps[i] * aaa[k] / reps[l])
+            end
+        end
+    end
+    return Dict(:list => list, :reps => reps, :stab => stab)
 end
 
 end # module
