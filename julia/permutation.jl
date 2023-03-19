@@ -2,10 +2,11 @@
 ##
 module permutation
 
-import Base: length, inv, isless, one, sign, rand, iterate, ==, *, /, ^
+import Base: length, hash, inv, isless, one, sign, rand, iterate, ==, *, /, ^
 
 export Perm
 export degree, domain, cycles, shape, order, transposition, shuffle!
+export is_trivial, largest_moved_point
 export p, q, r, transpositions, ttt  # test data
 
 ##  Perm data type
@@ -24,8 +25,9 @@ degree(perm::Perm) = length(perm.list)
 ## domain
 domain(perm::Perm) = 1:degree(perm)
 
-## equality
+## equality and hash
 ==(perm::Perm, other::Perm) = perm.list == other.list
+hash(perm::Perm, h::UInt) = hash(perm.list, hash(Perm, h))
 
 ## comparison for size
 isless(perm::Perm, other::Perm) = perm.list < other.list
@@ -103,6 +105,17 @@ rand(T::Type{X}, n::Int) where X <: Perm = shuffle!(one(Perm, n))
 iterate(x::Perm) = (x, nothing)
 iterate(x::Perm, ::Any) = nothing
 
+## is trivial?
+is_trivial(perm::Perm) = perm.list == domain(perm)
+
+## largest moved point
+function largest_moved_point(perm::Perm)
+    d = degree(perm)
+    while d^perm == d
+        d -= 1
+    end
+    return d
+end
 
 ## test data
 transpositions(n::Int) = [transposition(n, j-1, j) for j in 2:n]

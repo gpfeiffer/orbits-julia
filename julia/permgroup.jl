@@ -6,6 +6,7 @@ using permutation
 using orbits
 
 import Base: in, isless, iterate, size, ==, ^
+import permutation: is_trivial, largest_moved_point
 
 export PermGp, elements, conjClasses, closure, subgroups, subgpClasses
 
@@ -60,5 +61,11 @@ onSubgpClasses(x, a) = onGroups(x.elts[1], a)^(x.group)
 function subgpClasses(gp::PermGp)
     orbit(elements(gp), PermGp([], gp.one)^gp, onSubgpClasses)
 end
+
+## is trivial?
+is_trivial(group::PermGp) = all(is_trivial, group.gens)
+
+## largest moved point
+largest_moved_point(group::PermGp) = max(largest_moved_point.(group.gens)...)
 
 end # module
