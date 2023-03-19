@@ -6,7 +6,7 @@ import Base: length, hash, inv, isless, one, sign, rand, iterate, ==, *, /, ^
 
 export Perm
 export degree, domain, cycles, shape, order, transposition, shuffle!
-export is_trivial, largest_moved_point
+export permuted, is_trivial, largest_moved_point
 export p, q, r, transpositions, ttt  # test data
 
 ##  Perm data type
@@ -72,6 +72,9 @@ end
 
 ## conjugation
 ^(perm::Perm, other::Perm) = other^(-1) * perm * other
+
+## permuted
+permuted(list::Array, perm::Perm) = list[inv(perm).list]
 
 ## shape (aka cycle structure)
 shape(perm::Perm) = sort(length.(cycles(perm)), rev=true)
