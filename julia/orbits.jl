@@ -131,7 +131,7 @@ function orbit_with_edges(aaa, x, under)
                 push!(list, z)
                 l = length(list)
             end
-            push!(edges, [i, l])
+            push!(edges, (i, l))
         end
     end
     return Dict(:list => list, :edges => edges)
