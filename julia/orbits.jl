@@ -7,7 +7,7 @@ import Base: in, isless, size, ==
 export Orbit
 export orbit, orbitx, onPoints, onRight, onPairs, onSets
 export orbit_with_words, orbit_with_transversal, orbit_with_stabilizer
-export orbit_with_edges
+export orbit_with_edges, orbit_with_images
 
 ## orbit
 function orbit(aaa, x, under)
@@ -135,6 +135,26 @@ function orbit_with_edges(aaa, x, under)
         end
     end
     return Dict(:list => list, :edges => edges)
+end
+
+## orbit with images
+function orbit_with_images(aaa, x, under)
+    list = [x]
+    images = [Int[] for a in aaa]
+    i = 0
+    while i < length(list)
+        i += 1
+        for k in 1:length(aaa)
+            z = under(list[i], aaa[k])
+            l = findfirst(==(z), list)
+            if l == nothing
+                push!(list, z);
+                l = length(list);
+            end
+            push!(images[k], l)
+        end
+    end
+    return Dict(:list => list, :images => images)
 end
 
 end # module
