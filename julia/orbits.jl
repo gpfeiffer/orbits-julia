@@ -5,7 +5,9 @@ module orbits
 import Base: in, isless, size, ==
 
 export Orbit
-export orbit, orbitx, onPoints, onRight
+export orbit, orbitx, onPoints, onRight, onPairs, onSets
+export orbit_with_words, orbit_with_transversal, orbit_with_stabilizer
+export orbit_with_edges
 
 ## orbit
 function orbit(aaa, x, under)
@@ -24,6 +26,12 @@ onPoints(x, a) = x^a
 
 ## on right
 onRight(x, a) = x * a
+
+## on pairs
+onPairs(pair::Pair, a::Perm) = Pair(pair.first^a, pair.second^a)
+
+## on sets
+onSets(set::Set, a ::Perm) = Set([x^a for x in set])
 
 ##  Orbit data type
 struct Orbit
@@ -107,6 +115,26 @@ function orbit_with_stabilizer(aaa, x, under)
         end
     end
     return Dict(:list => list, :reps => reps, :stab => stab)
+end
+
+## orbit with edges
+function orbit_with_edges(aaa, x, under)
+    list = [x]
+    edges = []
+    i = 0
+    while i < length(list)
+        i += 1
+        for k in 1:length(aaa)
+            z = under(list[i], aaa[k])
+            l = findfirst(==(z), list)
+            if l == nothing
+                push!(list, z)
+                l = length(list)
+            end
+            push!(edges, [i, l])
+        end
+    end
+    return Dict(:list => list, :edges => edges)
 end
 
 end # module
