@@ -49,6 +49,14 @@ function cycles(perm::Perm, x = 1, open = trues(degree(perm)), cycle = [], ccc =
     return ccc
 end
 
+function Perm(n::Int, cycles::Array)
+    perm = Perm(n)
+    for c in cycles
+        perm.list[c] = c[(1:end) .% end .+ 1]
+    end
+    return perm
+end
+
 ## inverse permutation
 function inv(perm::Perm)
     list = similar(perm.list)
