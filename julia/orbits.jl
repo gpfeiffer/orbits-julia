@@ -3,6 +3,7 @@
 module orbits
 
 import Base: in, isless, size, ==
+import permutation: Perm
 
 export Orbit
 export orbit, orbitx, onPoints, onRight, onPairs, onSets
