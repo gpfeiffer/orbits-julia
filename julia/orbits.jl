@@ -55,8 +55,8 @@ function orbit_with_words(aaa, x, under)
     i = 0
     while i < length(list)
         i += 1
-        for k in 1:length(aaa)
-            z = under(list[i], aaa[k])
+        for (k, a) in enumerate(aaa)
+            z = under(list[i], a)
             if !(z in list)
                 push!(list, z)
                 push!(words, onWords(words[i], k))
@@ -85,11 +85,11 @@ function orbit_with_transversal(aaa, x, under)
     i = 0
     while i < length(list)
         i += 1
-        for k in 1:length(aaa)
-            z = under(list[i], aaa[k])
+        for a in aaa
+            z = under(list[i], a)
             if !(z in list)
                 push!(list, z)
-                push!(reps, reps[i] * aaa[k])
+                push!(reps, reps[i] * a)
             end
         end
     end
@@ -104,14 +104,14 @@ function orbit_with_stabilizer(aaa, x, under)
     i = 0
     while i < length(list)
         i += 1
-        for k in 1:length(aaa)
-            z = under(list[i], aaa[k])
+        for a in aaa
+            z = under(list[i], a)
             l = findfirst(==(z), list)
             if l == nothing
                 push!(list, z)
-                push!(reps, reps[i] * aaa[k])
+                push!(reps, reps[i] * a)
             else   # x^(reps[i] * a) = x^reps[l]
-                push!(stab, reps[i] * aaa[k] / reps[l])
+                push!(stab, reps[i] * a / reps[l])
             end
         end
     end
@@ -125,8 +125,8 @@ function orbit_with_edges(aaa, x, under)
     i = 0
     while i < length(list)
         i += 1
-        for k in 1:length(aaa)
-            z = under(list[i], aaa[k])
+        for a in aaa
+            z = under(list[i], a)
             l = findfirst(==(z), list)
             if l == nothing
                 push!(list, z)
@@ -145,8 +145,8 @@ function orbit_with_images(aaa, x, under)
     i = 0
     while i < length(list)
         i += 1
-        for k in 1:length(aaa)
-            z = under(list[i], aaa[k])
+        for (k, a) in enumerate(aaa)
+            z = under(list[i], a)
             l = findfirst(==(z), list)
             if l == nothing
                 push!(list, z);
