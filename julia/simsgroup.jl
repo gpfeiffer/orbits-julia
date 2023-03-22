@@ -9,13 +9,12 @@ module simsgroup
 
 import Base: in, size, rand
 import permutation: Perm, is_trivial, largest_moved_point
-import orbits: onPoints
 
 export SimsGp, orbit_sims
 export cube
 
 struct SimsGp
-    gens::Array{Perm}
+    gens::Vector{Perm}
     one::Perm
     sims::Dict{Symbol, Any}
     SimsGp(gens, one) = new(gens, one, Dict())
@@ -38,7 +37,7 @@ function closure(group::SimsGp, a::Perm)
     return SimsGp(vcat(group.gens, a), group.one)
 end
 
-function orbit_sims(aaa, x, under)
+function orbit_sims(aaa, x, under=^)
     list = [x]
     reps = [aaa[1]^0]
     stab = SimsGp([], aaa[1]^0)
@@ -61,7 +60,7 @@ end
 
 function sims(group::SimsGp)
     group.sims == Dict() && merge!(group.sims,
-      orbit_sims(group.gens, largest_moved_point(group), onPoints))
+      orbit_sims(group.gens, largest_moved_point(group)))
     return group.sims
 end
 

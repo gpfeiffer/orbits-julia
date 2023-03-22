@@ -11,7 +11,7 @@ export p, q, r, transpositions, ttt  # test data
 
 ##  Perm data type
 struct Perm
-    list::Array{Int}
+    list::Vector{Int}
 end
 
 ## identity

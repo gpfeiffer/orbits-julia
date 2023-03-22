@@ -12,7 +12,7 @@ export PermGp, elements, conjClasses, closure, subgroups, subgpClasses
 
 ## Perm group
 struct PermGp
-    gens::Array{Perm}
+    gens::Vector{Perm}
     one::Perm
 end
 
