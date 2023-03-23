@@ -6,7 +6,7 @@ import Base: in, isless, size, ==
 import permutation: Perm
 
 export Orbit
-export orbit, orbitx, onPoints, onRight, onPairs, onSets
+export orbit, orbitx, onPoints, onRight, onWords, onPairs, onSets
 export orbit_with_words, orbit_with_transversal, orbit_with_stabilizer
 export orbit_with_edges, orbit_with_images
 
@@ -49,6 +49,8 @@ in(x, o::Orbit) = x in o.elts
 isless(o::Orbit, other::Orbit) = o.elts[1] < other.elts[1]
 
 ## orbit with words
+onWords(word, s) = vcat(word, s)
+
 function orbit_with_words(aaa, x, under)
     list = [x]
     words = Array{Int}[[]]

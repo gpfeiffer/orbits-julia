@@ -59,9 +59,10 @@ end
 
 ## inverse permutation
 function inv(perm::Perm)
-    list = similar(perm.list)
-    list[perm.list] = eachindex(list)
-    Perm(list)
+    list = perm.list
+    other = similar(list)
+    other[list] = eachindex(list)
+    Perm(other)
 end
 
 ## product and quotient
@@ -96,7 +97,7 @@ sign(perm::Perm) = (-1)^(degree(perm) - length(cycles(perm)))
 ## transpositions
 function transposition(n::Int, j::Int, k::Int)
     list = collect(1:n)
-    list[[j, k]] = [k, j]
+    list[j], list[k] = k, j
     return Perm(list)
 end
 
