@@ -60,7 +60,7 @@ end
 ## inverse permutation
 function inv(perm::Perm)
     list = similar(perm.list)
-    list[perm.list] = domain(perm)
+    list[perm.list] = eachindex(list)
     Perm(list)
 end
 

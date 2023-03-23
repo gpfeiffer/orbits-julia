@@ -16,8 +16,8 @@ export cube
 struct SimsGp
     gens::Vector{Perm}
     one::Perm
-    sims::Dict{Symbol, Any}
-    SimsGp(gens, one) = new(gens, one, Dict())
+    sims::Vector{NamedTuple}
+    SimsGp(gens, one) = new(gens, one, [])
 end
 
 is_trivial(group::SimsGp) = all(is_trivial, group.gens)
@@ -27,9 +27,9 @@ largest_moved_point(group::SimsGp) = max(largest_moved_point.(group.gens)...)
 function in(a::Perm, group::SimsGp)
     is_trivial(group) && return is_trivial(a)
     s = sims(group)
-    pos = findfirst(==(s[:list][1]^a), s[:list])
+    pos = findfirst(==(s.list[1]^a), s.list)
     pos == nothing && return false
-    return a/s[:reps][pos] in s[:stab]
+    return a/s.reps[pos] in s.stab
 end
 
 function closure(group::SimsGp, a::Perm)
@@ -55,23 +55,23 @@ function orbit_sims(aaa, x, under=^)
             end
         end
     end
-    return Dict(:list => list, :reps => reps, :stab => stab)
+    return (list = list, reps = reps, stab = stab)
 end
 
 function sims(group::SimsGp)
-    group.sims == Dict() && merge!(group.sims,
+    group.sims == [] && push!(group.sims,
       orbit_sims(group.gens, largest_moved_point(group)))
-    return group.sims
+    return group.sims[1]
 end
 
 function size(group::SimsGp)::BigInt
     is_trivial(group) && return 1
-    length(sims(group)[:list]) * size(sims(group)[:stab])
+    length(sims(group).list) * size(sims(group).stab)
 end
 
 function rand(group::SimsGp)
     is_trivial(group) && return group.one
-    rand(sims(group)[:stab]) * rand(sims(group)[:reps])
+    rand(sims(group).stab) * rand(sims(group).reps)
 end
 
 ## test data

@@ -131,7 +131,7 @@ function youngLattice(lambda)
             push!(next, [])
             pos = length(list)
         end
-        push!(next[i], Dict(:pos => pos, :row => r, :col => c))
+        push!(next[i], (pos = pos, row = r, col = c))
     end
 
     ## orbit-with-edges
@@ -150,7 +150,7 @@ function youngLattice(lambda)
             end
         end
     end
-    return Dict(:list => list, :next => next)
+    return (list = list, next = next)
 end
 
 ##  DFS with a visitor that makes shortest paths if unknown.
@@ -158,8 +158,8 @@ function pathfinder(x, next, path)
     if ismissing(path[x])
         path[x] = []
         for z in next[x]
-            for p in pathfinder(z[:pos], next, path)
-                push!(path[x], vcat(p, [(z[:row], z[:col])]))
+            for p in pathfinder(z.pos, next, path)
+                push!(path[x], vcat(p, [(z.row, z.col)]))
             end
         end
         path[x] == [] && push!(path[x], [])   # empty path
@@ -169,7 +169,7 @@ end
 
 ## list of SYTs of shape lambda
 function standardYTs(lambda)
-    next = youngLattice(lambda)[:next]
+    next = youngLattice(lambda).next
     return pathfinder(1, next, Any[missing for x in next])
 end
 

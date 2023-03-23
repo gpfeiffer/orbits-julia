@@ -63,7 +63,7 @@ function orbit_with_words(aaa, x, under)
             end
         end
     end
-    return Dict(:list => list, :words => words)
+    return (list = list, words = words)
 end
 
 ## orbitx
@@ -93,7 +93,7 @@ function orbit_with_transversal(aaa, x, under)
             end
         end
     end
-    return Dict(:list => list, :reps => reps)
+    return (list = list, reps = reps)
 end
 
 ## orbit with stabilizer
@@ -115,7 +115,7 @@ function orbit_with_stabilizer(aaa, x, under)
             end
         end
     end
-    return Dict(:list => list, :reps => reps, :stab => stab)
+    return (list = list, reps = reps, stab = stab)
 end
 
 ## orbit with edges
@@ -135,7 +135,7 @@ function orbit_with_edges(aaa, x, under)
             push!(edges, (i, l))
         end
     end
-    return Dict(:list => list, :edges => edges)
+    return (list = list, edges = edges)
 end
 
 ## orbit with images
@@ -155,7 +155,7 @@ function orbit_with_images(aaa, x, under)
             push!(images[k], l)
         end
     end
-    return Dict(:list => list, :images => images)
+    return (list = list, images = images)
 end
 
 end # module
