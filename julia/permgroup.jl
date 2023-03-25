@@ -9,6 +9,7 @@ import Base: in, isless, iterate, size, ==, ^
 import permutation: is_trivial, largest_moved_point
 
 export PermGp, elements, conjClasses, closure, subgroups, subgpClasses
+export sizeOfGroup, randomGroupElement
 
 ## Perm group
 struct PermGp
@@ -67,5 +68,23 @@ is_trivial(group::PermGp) = all(is_trivial, group.gens)
 
 ## largest moved point
 largest_moved_point(group::PermGp) = max(largest_moved_point.(group.gens)...)
+
+## size of group
+function sizeOfGroup(group)
+    is_trivial(group) && return 1
+    x = largest_moved_point(group)
+    orb = orbit_with_stabilizer(group.gens, x, onPoints)
+    stab = PermGp(setdiff(orb.stab, group.one), group.one)
+    return sizeOfGroup(stab) * length(orb.reps)
+end
+
+## random group element
+function randomGroupElement(group)
+    is_trivial(group) && return group.one
+    x = largest_moved_point(group)
+    orb = orbit_with_stabilizer(group.gens, x, onPoints)
+    stab = PermGp(setdiff(orb.stab, group.one), group.one)
+    return randomGroupElement(stab) * rand(orb.reps)
+end
 
 end # module
