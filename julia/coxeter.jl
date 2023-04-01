@@ -8,7 +8,7 @@ using orbits
 import permutation: Perm
 
 export coxeterGraph, cartanMat, CoxeterGp, coxeterConjugacyClasses
-export coxeterLength
+export coxeterLength, coxeterWord, reflections
 
 using LinearAlgebra
 
@@ -88,6 +88,9 @@ PermGp(group::CoxeterGp) = PermGp(group.gens, group.one)
 
 using permgroup
 size(group::CoxeterGp) = sizeOfGroup(PermGp(group))
+
+import Base: ^
+^(a::Perm, group::CoxeterGp) = a^PermGp(group)
 
 data(group::CoxeterGp) = group.data
 
@@ -262,5 +265,6 @@ function coxeterConjugacyClasses(W)
     onMinReps(x, a) = coxeterMinRep(W, x * a)
     orbit(reflections(W), W.one, onMinReps)
 end
+
 
 end # module
