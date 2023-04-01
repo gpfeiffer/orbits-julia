@@ -8,6 +8,7 @@ using orbits
 import permutation: Perm
 
 export coxeterGraph, cartanMat, CoxeterGp, coxeterConjugacyClasses
+export coxeterLength
 
 using LinearAlgebra
 
