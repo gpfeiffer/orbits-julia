@@ -28,6 +28,7 @@ function in(a::Perm, group::SimsGp)
     is_trivial(group) && return is_trivial(a)
     s = sims(group)
     pos = findfirst(==(s.list[1]^a), s.list)
+#    pos = indexin(s.list[1]^a, s.list)[1]
     pos == nothing && return false
     return a/s.reps[pos] in s.stab
 end
