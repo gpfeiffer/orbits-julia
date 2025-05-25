@@ -1,0 +1,19 @@
+\documentclass{standalone}
+
+\usepackage{tikz}
+\usepackage[euler-digits]{eulervm}
+\newcommand{\hatl}{\rotatebox[origin=b]{90}{$\hat{}$}}
+\newcommand{\hatr}{\rotatebox[origin=b]{-90}{$\hat{}$}}
+
+\begin{document}
+{%\tiny
+  \tikz[baseline,scale=2]{
+    \draw (-0.2,0) node {$\bullet$} node[below] {$_{_1}$} -- node{$\hatl$}
+    (0,0) node {$\bullet$} node[below] {$_{_3}$} -- node{$\hatl$}
+    (0.2,0) node {$\bullet$} node[below] {$_{_4}$} -- node{$\hatl$}
+    (0.4,0) node {$\bullet$} node[below] {$_{_5}$} -- node{$\hatl$}
+    (0.6,0) node[white] {$\bullet$} node[below] {$_{_6}$} node {$\circ$} -- node{$\hatr$}
+    (0.8,0) node {$\bullet$} node[below] {$_{_7}$};
+    \draw (0.2,0) -- node{$\hat{}$} (0.2,0.2) node {$\bullet$} node[right] {$_{_2}$};}}
+
+\end{document}
