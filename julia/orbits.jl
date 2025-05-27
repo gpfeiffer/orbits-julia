@@ -54,15 +54,11 @@ onWords(word, s) = vcat(word, s)
 function orbit_with_words(aaa, x, under)
     list = [x]
     words = Array{Int}[[]]
-    i = 0
-    while i < length(list)
-        i += 1
+    for (i, y) in enumerate(list)
         for (k, a) in enumerate(aaa)
-            z = under(list[i], a)
-            if !(z in list)
-                push!(list, z)
-                push!(words, onWords(words[i], k))
-            end
+            z = under(y, a)
+            w = onWords(words[i], k)
+            z in list || (push!(list, z), push!(words, w))
         end
     end
     return (list = list, words = words)
@@ -84,15 +80,11 @@ end
 function orbit_with_transversal(aaa, x, under)
     list = [x]
     reps = [aaa[1]^0]
-    i = 0
-    while i < length(list)
-        i += 1
+    for (i, y) in enumerate(list)
         for a in aaa
-            z = under(list[i], a)
-            if !(z in list)
-                push!(list, z)
-                push!(reps, reps[i] * a)
-            end
+            z = under(y, a)
+            t = reps[i] * a
+            z in list || (push!(list, z), push!(reps, t))
         end
     end
     return (list = list, reps = reps)
@@ -103,17 +95,16 @@ function orbit_with_stabilizer(aaa, x, under)
     list = [x]
     reps = [aaa[1]^0]
     stab = []
-    i = 0
-    while i < length(list)
-        i += 1
+    for (i, y) in enumerate(list)
         for a in aaa
-            z = under(list[i], a)
+            z = under(y, a)
+            t = reps[i] * a
             l = findfirst(==(z), list)
-            if l == nothing
+            if isnothing(l)
                 push!(list, z)
-                push!(reps, reps[i] * a)
+                push!(reps, t)
             else   # x^(reps[i] * a) = x^reps[l]
-                push!(stab, reps[i] * a / reps[l])
+                push!(stab, t / reps[l])
             end
         end
     end
@@ -124,13 +115,11 @@ end
 function orbit_with_edges(aaa, x, under)
     list = [x]
     edges = []
-    i = 0
-    while i < length(list)
-        i += 1
+    for (i, y) in enumerate(list)
         for a in aaa
-            z = under(list[i], a)
+            z = under(y, a)
             l = findfirst(==(z), list)
-            if l == nothing
+            if isnothing(l)
                 push!(list, z)
                 l = length(list)
             end
@@ -144,11 +133,9 @@ end
 function orbit_with_images(aaa, x, under)
     list = [x]
     images = [Int[] for a in aaa]
-    i = 0
-    while i < length(list)
-        i += 1
+    for (i, y) in enumerate(list)
         for (k, a) in enumerate(aaa)
-            z = under(list[i], a)
+            z = under(y, a)
             l = findfirst(==(z), list)
             if l == nothing
                 push!(list, z);
