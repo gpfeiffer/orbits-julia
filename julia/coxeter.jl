@@ -39,13 +39,11 @@ function orbits_with_words_and_edges(aaa, xxx, under)
     words = Array{Int}[[i] for i in eachindex(xxx)]
     list = copy(xxx)
     edges = []
-    i = 0
-    while i < length(list)
-        i += 1
+    for (i, y) in enumerate(list)
         for (k, a) in enumerate(aaa)
-            z = under(list[i], a)
+            z = under(y, a)
             l = findfirst(==(z), list)
-            if l == nothing
+            if isnothing(l)
                 push!(list, z)
                 push!(words, onWords(words[i], k))
                 l = length(list)
@@ -135,7 +133,7 @@ function longestElement(W, J)
     J = collect(J)
     while true
         i = findfirst(s -> s^wJ <= N, J)
-        i == nothing && return wJ
+        isnothing(i) && return wJ
         wJ = W.gens[J[i]] * wJ
     end
 end
@@ -184,10 +182,7 @@ function shape_with_transversal(W, J)
     S = 1:data(W)[:rank]
     list = [J]
     reps = [W.one]
-    i = 0
-    while i < length(list)
-        i += 1
-        K = list[i]
+    for (i, K) in enumerate(list)
         for s in setdiff(S, K)
             a = longestCosetElement(W, K, tackOn(K, s))
             L = onSortedTuples(K, a)
@@ -205,15 +200,12 @@ function parabolicComplement(W, J)
     list = [J]
     reps = [W.one]
     gens = (ears = Set(Perm[]), eyes = Set(Perm[]))
-    i = 0
-    while i < length(list)
-        i += 1
-        K = list[i]
+    for (i, K) in enumerate(list)
         for s in setdiff(S, K)
             a = longestCosetElement(W, K, tackOn(K, s))
             L = onSortedTuples(K, a)
             j = findfirst(==(L), list)
-            if j == nothing
+            if isnothing(j)
                 push!(list, L)
                 push!(reps, reps[i] * a)
             elseif j == i
