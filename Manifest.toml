@@ -255,7 +255,7 @@ version = "3.5.5+0"
 
 [[deps.OrbitAl]]
 deps = ["Base64", "GraphPlot", "Graphs", "IJulia", "JSON"]
-git-tree-sha1 = "fa13324e1c65a151b3a5f18127314329138dc8e3"
+git-tree-sha1 = "3d672fba5ea1cc449402286bc5e2a25a73368d00"
 repo-rev = "main"
 repo-url = "https://github.com/gpfeiffer/OrbitAl.jl"
 uuid = "b53d2297-9141-4d9f-81f1-04787862c2db"
