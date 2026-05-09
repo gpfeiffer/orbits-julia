@@ -1,0 +1,20 @@
+\documentclass{standalone}
+
+\usepackage[mathcal]{euler}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\let\emptyset\varnothing
+
+\begin{document}
+\begin{minipage}{0.9\linewidth}
+  \begin{itemize}\setlength{\itemsep}{-4pt}
+  \item[] $\mathbf{orbit}(A, x, {\cdot}):$
+  \item[] \quad $L \gets (x)$
+  \item[] \quad $\text{for } y \in L:$
+  \item[] \quad \quad $\text{for } a \in A:$
+  \item[] \quad \quad \quad $z \gets y \cdot a$
+  \item[] \quad \quad \quad $\text{if } z \notin L:$ $L.\text{push}(z)$
+  \item[] \quad $\text{return }L$
+  \end{itemize}
+\end{minipage}
+\end{document}
