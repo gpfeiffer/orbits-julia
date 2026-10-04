@@ -1,0 +1,47 @@
+((=- The stock nbconvert article template, plus a monospace font and the alert boxes. -=))
+((*- if not cell_style is defined -*))
+    ((* set cell_style = 'style_jupyter.tex.j2' *))
+((*- endif -*))
+
+((* extends cell_style *))
+
+
+%===============================================================================
+% Latex Article (nb2book.py turns it into a book)
+%===============================================================================
+
+((*- block docclass -*))
+\documentclass[11pt]{article}
+((*- endblock docclass -*))
+
+((*- block packages -*))
+((( super() )))
+
+    % nbconvert loads fontspec but never chooses a monospace font, so xelatex
+    % falls back to Latin Modern Mono, which lacks symbols such as the ∩, ↦ and
+    % ≤ in the Julia code: they would be dropped silently.  Pick a monospace
+    % font that covers them.
+    \IfFontExistsTF{DejaVu Sans Mono}{%
+        \setmonofont{DejaVu Sans Mono}[Scale=MatchLowercase]%
+    }{%
+        \IfFontExistsTF{Liberation Mono}{%
+            \setmonofont{Liberation Mono}%
+        }{%
+            \IfFontExistsTF{Noto Sans Mono}{\setmonofont{Noto Sans Mono}}{}%
+        }%
+    }
+
+    % The notebooks' <div class="alert alert-KIND"> boxes, as coloured frames.
+    % alerts.lua turns each such div into \begin{nbalert}{KIND} ... \end{nbalert}.
+    % Colours: the Bootstrap 3 alert palette that Jupyter uses.
+    % (nbconvert has loaded tcolorbox already; loading it again with options
+    % would clash, so just add the libraries.)
+    \tcbuselibrary{breakable,skins}
+    \definecolor{alertdangerbg}{HTML}{F2DEDE}  \definecolor{alertdangerfg}{HTML}{A94442}
+    \definecolor{alertwarningbg}{HTML}{FCF8E3} \definecolor{alertwarningfg}{HTML}{8A6D3B}
+    \definecolor{alertinfobg}{HTML}{D9EDF7}    \definecolor{alertinfofg}{HTML}{31708F}
+    \definecolor{alertsuccessbg}{HTML}{DFF0D8} \definecolor{alertsuccessfg}{HTML}{3C763D}
+    \newtcolorbox{nbalert}[1]{breakable, enhanced, colback=alert#1bg,
+        colframe=alert#1fg, boxrule=0.6pt, arc=2pt, left=6pt, right=6pt,
+        top=4pt, bottom=4pt, before skip=8pt, after skip=8pt}
+((*- endblock packages -*))
