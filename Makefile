@@ -10,12 +10,13 @@
 
 NOTEBOOKS = $(wildcard notebooks/*.ipynb)
 TEMPLATE  = $(wildcard templates/book/*)
+IMAGES    = $(wildcard images/*)
 
 .PHONY: all clean
 
 all: exports/book.pdf
 
-exports/book.pdf: $(NOTEBOOKS) $(TEMPLATE) nb2book.py
+exports/book.pdf: $(NOTEBOOKS) $(TEMPLATE) $(IMAGES) nb2book.py
 	python3 nb2book.py
 
 clean:
