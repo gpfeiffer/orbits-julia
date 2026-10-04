@@ -18,9 +18,12 @@ For each chapter notebook:
          the notebooks' <div class="alert alert-KIND"> blocks,
        - templates/book/alerts.lua: the pandoc filter that produces them.
 
+The preface (notebooks/preface.ipynb, markdown only) is exported as is, as
+an unnumbered chapter in the front matter.
+
 Then:
-  5. Assemble _book_build/book.tex with \\documentclass{book}, one chapter
-     per notebook and the Solutions appendix, compile with xelatex (two
+  5. Assemble _book_build/book.tex with \\documentclass{book}: the preface,
+     one chapter per notebook and the Solutions appendix; compile with xelatex (two
      passes for the table of contents and page references), and copy the
      result to exports/book.pdf.
 
@@ -47,6 +50,7 @@ LUA_FILTER = TEMPLATE_DIR / TEMPLATE_NAME / 'alerts.lua'
 TITLE = 'Computational Aspects of Complex Reflection Groups'
 AUTHOR = r'Götz Pfeiffer \\ University of Galway'
 
+PREFACE = 'preface'      # markdown only: not executed, unnumbered
 CHAPTERS = ['orbits', 'coxeter', 'enumerate', 'linear']
 
 CELL_TIMEOUT = 1800   # seconds; the E7 conjugacy classes take a while
@@ -221,6 +225,14 @@ def main():
                      lambda m: m.group(0) + name + ':', tex)
         return tex
 
+    print(f'[nb2book] {PREFACE}', flush=True)
+    nb = nbformat.read(NB_DIR / f'{PREFACE}.ipynb', as_version=4)
+    fix_markdown(nb)
+    tex = to_latex(nb, PREFACE)
+    # In \frontmatter the chapter is unnumbered, but its sections are not:
+    # star them, or they come out as 0.1, 0.2, ...
+    preface = re.sub(r'\\section\{', r'\\section*{', demote_headings(extract_body(tex)))
+
     preamble, bodies, appendix, metadata = None, [], [], None
     for name in CHAPTERS:
         print(f'[nb2book] {name}', flush=True)
@@ -252,9 +264,13 @@ def main():
         '\\date{}',
         '',
         '\\begin{document}',
+        '\\frontmatter',
         '\\maketitle',
         '\\tableofcontents',
         '',
+        preface,
+        '',
+        '\\mainmatter',
         '\n\n'.join(bodies),
         '',
         '\\end{document}',
