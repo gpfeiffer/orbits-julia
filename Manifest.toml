@@ -245,11 +245,11 @@ uuid = "458c3c95-2e84-50aa-8efc-19380b2a3a95"
 version = "3.5.6+0"
 
 [[deps.OrbitAl]]
-git-tree-sha1 = "143a06fcfe1411567111c33eaf91a3cc5643aeb8"
+git-tree-sha1 = "d417ef47928b505db93f9120a0c09bb3f3eb4089"
 repo-rev = "main"
 repo-url = "https://github.com/gpfeiffer/OrbitAl.jl"
 uuid = "b53d2297-9141-4d9f-81f1-04787862c2db"
-version = "0.1.6"
+version = "0.1.8"
 weakdeps = ["GraphPlot", "Graphs", "JSON"]
 
     [deps.OrbitAl.extensions]
