@@ -13,7 +13,10 @@ For each chapter notebook:
   3. Move the exercise solutions -- code cells tagged hide-cell and the
      <details> proof blocks -- into an appendix, under their exercise
      numbers, leaving a page reference behind.
-  4. Export to LaTeX via nbconvert, with
+  4. Index the running text (not the preface, the exercises or the
+     solutions): the bold terms and the section headings listed in
+     index-terms.txt, and the functions defined in the code cells.
+  5. Export to LaTeX via nbconvert, with
        - templates/book: a Unicode monospace font, and coloured boxes for
          the notebooks' <div class="alert alert-KIND"> blocks,
        - templates/book/alerts.lua: the pandoc filter that produces them.
@@ -22,10 +25,11 @@ The preface (notebooks/preface.ipynb, markdown only) is exported as is, as
 an unnumbered chapter in the front matter.
 
 Then:
-  5. Assemble _book_build/book.tex with \\documentclass{book}: the preface,
-     one chapter per notebook and the Solutions appendix; compile with xelatex (two
-     passes for the table of contents and page references), and copy the
-     result to exports/book.pdf.
+  6. Assemble _book_build/book.tex with \\documentclass{book}: the preface,
+     one chapter per notebook, the Solutions appendix and the index; compile
+     with xelatex, run makeindex, and compile twice more (for the index, the
+     table of contents and page references), and copy the result to
+     exports/book.pdf.
 
 Usage:  python3 nb2book.py
 """
@@ -46,6 +50,7 @@ OUTPUT = ROOT / 'exports' / 'book.pdf'
 TEMPLATE_DIR = ROOT / 'templates'
 TEMPLATE_NAME = 'book'
 LUA_FILTER = TEMPLATE_DIR / TEMPLATE_NAME / 'alerts.lua'
+INDEX_TERMS = ROOT / 'index-terms.txt'
 
 TITLE = 'Computational Aspects of Complex Reflection Groups'
 AUTHOR = r'Götz Pfeiffer \\ University of Galway'
@@ -78,6 +83,10 @@ EXERCISE = re.compile(r'^\*\*Exercise (\d+\.\d+)')
 JULIA_LOGO = re.compile(r'<img src="images/julia\.png"[^>]*>')
 DETAILS = re.compile(r'<details>\s*<summary>(.*?)</summary>\s*', re.DOTALL)
 IMAGE_LINE = re.compile(r'(?m)^(!\[[^\]]*\]\([^)]*\))\n(?=!\[)')
+BOLD = re.compile(r'\*\*([^*\n]{2,60})\*\*')
+LABEL = re.compile(r'(Exercise|Theorem|Definition|Lemma|Proof|Remarks?|Input|Output|Note|Why|Part \d|\d)')
+HEADING = re.compile(r'(?m)^#{2,3}\s+(.*\S)\s*$')
+FUNCTION = re.compile(r'(?m)^(?:function\s+([A-Za-z_][\w!]*)\s*\(|([A-Za-z_][\w!]*)\([^\n]*\)\s*=(?!=))')
 
 
 def chapter_title(nb):
@@ -128,6 +137,62 @@ def split_solutions(nb):
         solutions[-1][1].append(unhide(cell))
     nb.cells = kept
     return solutions
+
+
+def read_index_terms():
+    """The bold terms, the headings and the functions of index-terms.txt,
+    with their entries."""
+    terms, headings, functions, table = {}, {}, {}, None
+    for line in INDEX_TERMS.read_text().splitlines():
+        if line.startswith('## '):
+            table = {'## Headings': headings, '## Functions': functions}.get(line, terms)
+        elif '=>' in line and not line.startswith('#'):
+            key, entry = (x.strip() for x in line.split('=>'))
+            table[key] = entry
+    return terms, headings, functions
+
+
+def add_index(nb, terms, headings, functions):
+    """Index the running text of a chapter: the bold terms and the headings
+    listed in index-terms.txt, after the term or the heading, and the
+    functions defined in the code cells that index-terms.txt does not skip,
+    in a raw cell before the code."""
+    def entry(e):
+        return '' if e == '-' else f'\\index{{{e}}}'
+
+    def bold(m):
+        if LABEL.match(m.group(1)):                     # Theorem, Input, ...
+            return m.group(0)
+        key = m.group(1).lower().rstrip('.:')
+        if key not in terms:
+            print(f'  index: bold term not in index-terms.txt: {key!r}')
+        return m.group(0) + entry(terms.get(key, '-'))
+
+    def heading(m):
+        e = entry(headings.get(m.group(1).strip().lower(), '-'))
+        return m.group(0) + ('\n' + e if e else '')
+
+    def function(f):
+        key = f.replace('!', '"!')                      # makeindex quotes "!"
+        tt = key.replace('_', '\\_')
+        return f'\\index{{{key}@\\texttt{{{tt}}}}}'
+
+    cells = []
+    for cell in nb.cells:
+        if cell.cell_type == 'markdown' and not EXERCISE.match(cell.source):
+            cell.source = HEADING.sub(heading, BOLD.sub(bold, cell.source))
+        if cell.cell_type == 'code' and '# your code here' not in cell.source:
+            names = dict.fromkeys(a or b for a, b in FUNCTION.findall(cell.source))
+            for f in names:
+                if f not in functions:
+                    print(f'  index: function not in index-terms.txt: {f!r}')
+            names = [f for f in names if functions.get(f) != '-']
+            if names:
+                cells.append(nbformat.v4.new_raw_cell(
+                    ''.join(function(f) for f in names),
+                    metadata={'raw_mimetype': 'text/latex'}))
+        cells.append(cell)
+    nb.cells = cells
 
 
 def fix_markdown(nb):
@@ -188,7 +253,9 @@ def extract_body(tex):
 
 def adapt_preamble(preamble):
     """article -> book; drop the per-notebook title, author and date."""
-    preamble = re.sub(r'\\documentclass(\[.*?\])?\{article\}', r'\\documentclass\1{book}', preamble)
+    preamble = re.sub(r'\\documentclass(\[.*?\])?\{article\}',
+                      r'\\documentclass\1{book}\n\\usepackage[noautomatic]{imakeidx}\n\\makeindex[intoc]',
+                      preamble)
     return re.sub(r'\\(title|author|date)\{[^}]*\}\n?', '', preamble)
 
 def demote_headings(body):
@@ -233,6 +300,7 @@ def main():
     # star them, or they come out as 0.1, 0.2, ...
     preface = re.sub(r'\\section\{', r'\\section*{', demote_headings(extract_body(tex)))
 
+    terms, headings, functions = read_index_terms()
     preamble, bodies, appendix, metadata = None, [], [], None
     for name in CHAPTERS:
         print(f'[nb2book] {name}', flush=True)
@@ -243,6 +311,7 @@ def main():
         fix_outputs(nb)
         title = chapter_title(nb)
         appendix.append((title, split_solutions(nb)))
+        add_index(nb, terms, headings, functions)
         fix_markdown(nb)
         metadata = metadata or nb.metadata
         print('  exporting to LaTeX ...', flush=True)
@@ -274,17 +343,26 @@ def main():
         '\\mainmatter',
         '\n\n'.join(bodies),
         '',
+        '\\printindex',
         '\\end{document}',
     ]))
 
-    # Two passes: the table of contents and the \pageref's need the .aux file.
-    for n in (1, 2):
+    # Three passes: the table of contents and the \pageref's need the .aux
+    # file, and the index, made by makeindex after the first pass, adds pages.
+    for n in (1, 2, 3):
         print(f'[nb2book] xelatex pass {n} ...', flush=True)
         r = subprocess.run(['xelatex', '-interaction=nonstopmode', 'book.tex'],
                            cwd=BUILD, capture_output=True, text=True)
         if r.returncode != 0:
             print(r.stdout[-3000:])
             raise SystemExit('[nb2book] xelatex failed -- see output above')
+        if n == 1:
+            print('[nb2book] makeindex ...', flush=True)
+            r = subprocess.run(['makeindex', '-q', 'book.idx'],
+                               cwd=BUILD, capture_output=True, text=True)
+            if r.returncode != 0:
+                print(r.stderr)
+                raise SystemExit('[nb2book] makeindex failed -- see output above')
 
     OUTPUT.parent.mkdir(exist_ok=True)
     shutil.copy(BUILD / 'book.pdf', OUTPUT)

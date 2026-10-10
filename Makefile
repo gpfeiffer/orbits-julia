@@ -17,7 +17,7 @@ IMAGES    = $(wildcard images/*)
 
 all: exports/book.pdf
 
-exports/book.pdf: $(NOTEBOOKS) $(TEMPLATE) $(IMAGES) nb2book.py
+exports/book.pdf: $(NOTEBOOKS) $(TEMPLATE) $(IMAGES) nb2book.py index-terms.txt
 	python3 nb2book.py
 
 clean:
