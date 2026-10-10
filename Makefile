@@ -9,8 +9,7 @@
 # never modified.  See the docstring of nb2book.py for details.
 
 # The notebooks in the book, as listed in nb2book.py (PREFACE, CHAPTERS).
-# Drafts such as notebooks/computing.ipynb are deliberately left out.
-NOTEBOOKS = $(addprefix notebooks/, $(addsuffix .ipynb, preface orbits coxeter enumerate linear))
+NOTEBOOKS = $(addprefix notebooks/, $(addsuffix .ipynb, preface orbits coxeter enumerate linear computing))
 TEMPLATE  = $(wildcard templates/book/*)
 IMAGES    = $(wildcard images/*)
 

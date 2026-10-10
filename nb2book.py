@@ -51,7 +51,7 @@ TITLE = 'Computational Aspects of Complex Reflection Groups'
 AUTHOR = r'Götz Pfeiffer \\ University of Galway'
 
 PREFACE = 'preface'      # markdown only: not executed, unnumbered
-CHAPTERS = ['orbits', 'coxeter', 'enumerate', 'linear']
+CHAPTERS = ['orbits', 'coxeter', 'enumerate', 'linear', 'computing']
 
 CELL_TIMEOUT = 1800   # seconds; the E7 conjugacy classes take a while
 
@@ -261,7 +261,8 @@ def main():
         adapt_preamble(preamble),
         f'\\title{{{TITLE}}}',
         f'\\author{{{AUTHOR}}}',
-        '\\date{}',
+        # the BFS T-shirt below the author, cropped to the shirt
+        '\\date{\\vspace{1cm}\\includegraphics[width=0.7\\textwidth, trim=40 215 45 60, clip]{images/shirtbfs.pdf}}',
         '',
         '\\begin{document}',
         '\\frontmatter',

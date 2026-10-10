@@ -6,9 +6,8 @@ A collection of Jupyter notebooks and Julia programs for orbit calculations
 ## Contents
 
 * `notebooks/`: the book *Computational Aspects of Complex Reflection Groups*,
-  one notebook per chapter (`orbits`, `coxeter`, `enumerate`, `linear`),
-  with a `preface`.  Other notebooks there, such as `computing`, are drafts
-  and not part of the book.
+  one notebook per chapter (`orbits`, `coxeter`, `enumerate`, `linear`,
+  `computing`), with a `preface`.
 * `gap3/`, `gap4/`: the GAP originals of many of the algorithms.
 * `nb2book.py`, `templates/book/`, `Makefile`: the production line for the
   book PDF.
