@@ -34,11 +34,14 @@ Then:
 Usage:  python3 nb2book.py
 """
 
-import os, re, shutil, subprocess
+import io, os, re, shutil, subprocess
 from copy import deepcopy
 from pathlib import Path
 
 import nbformat
+import numpy as np
+from PIL import Image
+from scipy import ndimage
 from nbconvert.exporters import LatexExporter
 from nbconvert.filters import pandoc as _pandoc_mod
 from nbconvert.preprocessors import ExecutePreprocessor
@@ -243,6 +246,18 @@ def solutions_notebook(chapters, metadata):
     return nb
 
 
+def graph_width(png):
+    """The width of a graph plot, as a fraction of the line width: about 1/3
+    for a few nodes, growing with the square root of the number of nodes, up
+    to 0.9 (nbconvert's default for every figure).  The nodes are the
+    turquoise discs that GraphPlot draws; count them."""
+    a = np.asarray(Image.open(io.BytesIO(png)).convert('RGB')).astype(int)
+    turquoise = (abs(a[..., 0] - 64) < 40) & (abs(a[..., 1] - 224) < 40) & (abs(a[..., 2] - 208) < 40)
+    labels, n = ndimage.label(turquoise)
+    nodes = int((ndimage.sum(turquoise, labels, range(1, n + 1)) >= 4).sum())
+    return None if nodes == 0 else min(0.9, 0.25 + 0.05 * nodes ** 0.5)
+
+
 # ── LaTeX helpers (as in CS2101) ──────────────────────────────────────────────
 def extract_preamble(tex):
     return tex[:tex.find(r'\begin{document}')].rstrip()
@@ -285,6 +300,11 @@ def main():
             unique = f'{name}_{fname}'
             (BUILD / unique).write_bytes(data)
             tex = tex.replace('{' + fname + '}', '{' + unique + '}')
+            # a graph plot only as wide as its number of nodes needs
+            width = graph_width(data) if fname.endswith('.png') else None
+            if width:
+                tex = tex.replace(r'\adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{' + unique + '}',
+                                  r'\adjustimage{max size={' + f'{width:.2f}' + r'\linewidth}{0.9\paperheight}}{' + unique + '}')
         # pandoc labels each heading after its text, so "Setup" or "Exercises"
         # would be defined once per chapter: prefix them with the notebook name.
         # (Only the sol: labels are referred to across notebooks.)

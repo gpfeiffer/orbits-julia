@@ -40,7 +40,8 @@ make clean      # removes _book_build/ and exports/book.pdf
 A full build takes a few minutes, mostly for the conjugacy classes of $E_7$.
 It needs, besides Julia as above:
 
-* Python 3 with `nbconvert` and `nbformat`,
+* Python 3 with `nbconvert` and `nbformat`, and `numpy`, `Pillow` and `scipy`
+  (to size the graph plots),
 * `pandoc` (3.x),
 * `xelatex`, with the LaTeX packages `tcolorbox` and `adjustbox`,
 * the font DejaVu Sans Mono (or Liberation Mono, or Noto Sans Mono), for the
