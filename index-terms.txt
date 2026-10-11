@@ -228,6 +228,7 @@ strategies  =>  coset enumeration!strategies
 
 linear  =>  -
 splat  =>  splat (Julia)
+matrix literal  =>  matrix literal (Julia)
 specht modules  =>  Specht module
 permutation matrices  =>  permutation matrix
 sparse vectors  =>  sparse vector
