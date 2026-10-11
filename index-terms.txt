@@ -543,7 +543,6 @@ sifts  =>  sifts
 intersection  =>  intersection
 first_leaf  =>  first_leaf
 subgp_gens  =>  subgp_gens
-coset_perms  =>  -
 reidemeister_schreier  =>  reidemeister_schreier
 check  =>  -
 left_nullspace  =>  left_nullspace
