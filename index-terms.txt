@@ -373,6 +373,7 @@ the vector table  =>  vector enumeration!vector table
 relators at a coset  =>  vector enumeration!relators at a coset
 example: $a_3$  =>  -
 example: $g(3,3,3)$  =>  -
+back to groups  =>  vector enumeration!at q = 1
 coefficients in $h_j$  =>  -
 schreier-sims  =>  Schreier-Sims algorithm
 sifting  =>  sifting
