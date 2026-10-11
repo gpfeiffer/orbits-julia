@@ -385,6 +385,7 @@ backtrack search  =>  backtrack search
 centralizers  =>  centralizer
 intersections  =>  intersection
 generators of a subgroup  =>  backtrack search!generators of a subgroup
+partition backtrack  =>  backtrack search!partition backtrack
 presentations of subgroups  =>  presentation!of a subgroup
 the meataxe  =>  MeatAxe
 
