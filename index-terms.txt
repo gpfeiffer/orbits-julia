@@ -537,7 +537,6 @@ add!  =>  add!
 schreier_sims  =>  schreier_sims
 base  =>  base
 strong_gens  =>  strong_gens
-stabChain  =>  stabChain
 backtrack  =>  backtrack
 centralizer  =>  centralizer
 sifts  =>  sifts
