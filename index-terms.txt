@@ -492,6 +492,7 @@ active  =>  -
 word  =>  -
 onCosets  =>  onCosets
 check_find!  =>  -
+check_classes  =>  -
 check_loops  =>  -
 # Part 4
 nonzero  =>  -
