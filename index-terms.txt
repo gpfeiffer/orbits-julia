@@ -500,6 +500,7 @@ e  =>  -
 denseVec  =>  -
 lastDead  =>  -
 spinning  =>  spinning
+find_with_coeffs  =>  find_with_coeffs
 spinning_with_images  =>  spinning_with_images
 rowWord  =>  -
 colWord  =>  -
