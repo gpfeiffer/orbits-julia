@@ -17,6 +17,7 @@
 
 ## Part 1
 
+euclidean algorithm  =>  Euclidean algorithm
 proving desirable properties  =>  -
 model for variations  =>  -
 extensions  =>  -
@@ -251,6 +252,7 @@ matrix literal  =>  matrix literal (Julia)
 splat  =>  splat (Julia)
 coordinates  =>  -
 extended  =>  Gaussian elimination, extended
+extended euclidean algorithm  =>  Euclidean algorithm!extended
 specht modules  =>  Specht module
 column stabilizer  =>  Specht module!column stabilizer
 tabloid  =>  Specht module!tabloid
@@ -392,7 +394,7 @@ the meataxe  =>  MeatAxe
 ## Functions
 
 # Part 1
-gcd  =>  -
+gcd  =>  gcd
 BFS  =>  BFS
 DFS  =>  DFS
 pr  =>  -
