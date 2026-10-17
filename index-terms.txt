@@ -546,5 +546,5 @@ rewrite  =>  rewrite
 reidemeister_schreier  =>  reidemeister_schreier
 check  =>  -
 left_nullspace  =>  left_nullspace
-norton  =>  norton
+meataxe  =>  meataxe
 check_cycle_rank  =>  -
