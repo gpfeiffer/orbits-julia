@@ -135,6 +135,7 @@ schreier-sims  =>  Schreier-Sims algorithm
 data structure  =>  -
 list of pairs  =>  -
 action on the subsets  =>  action!on subsets
+cayley graph  =>  Cayley graph
 termination  =>  -
 $l \subseteq x^g$  =>  -
 $x^g \subseteq l$  =>  -
