@@ -192,6 +192,7 @@ length  =>  length of an element
 left descent  =>  descent
 longest elements  =>  longest element
 graph automorphism  =>  -
+weak bruhat order  =>  Bruhat order!weak
 prefix  =>  prefix
 orbit (!)  =>  -
 standard parabolic subgroup  =>  parabolic subgroup
