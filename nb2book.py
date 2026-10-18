@@ -89,6 +89,7 @@ EXERCISE_TITLE = re.compile(r'^\*\*Exercise \d+\.\d+\*\*\s*\(([^)$\n]+)\)')
 JULIA_LOGO = re.compile(r'<img src="images/julia\.png"[^>]*>')
 DETAILS = re.compile(r'<details>\s*<summary>(.*?)</summary>\s*', re.DOTALL)
 IMAGE_LINE = re.compile(r'(?m)^(!\[[^\]]*\]\([^)]*\))\n(?=!\[)')
+LINKED_IMAGE = re.compile(r'(?m)^\[!\[([^\]]*)\]\(([^)]*)\)\]\(([^)]*)\)[ \t]*$')
 BOLD = re.compile(r'\*\*([^*\n]{2,60})\*\*')
 LABEL = re.compile(r'(Exercise|Theorem|Definition|Lemma|Proof|Remarks?|Input|Output|Note|Why|Part \d|\d)')
 HEADING = re.compile(r'(?m)^#{2,3}\s+(.*\S)\s*$')
@@ -222,11 +223,14 @@ def fix_markdown(nb):
     - A small julia logo in the tip boxes (pandoc would drop the <img>).
     - Images on consecutive lines form one paragraph, and so sit side by
       side, which is too wide for the page: give each its own paragraph.
+    - A linked image alone on its line is not a figure for pandoc, and so sits
+      flush left without a caption: make it a figure, with the link in the caption.
     """
     for cell in nb.cells:
         if cell.cell_type == 'markdown':
             cell.source = JULIA_LOGO.sub('![](images/julia.png){width=0.6cm}', cell.source)
             cell.source = IMAGE_LINE.sub(r'\1\n\n', cell.source)
+            cell.source = LINKED_IMAGE.sub(r'![[\1](\3)](\2)', cell.source)
 
 
 def fix_outputs(nb):
