@@ -320,6 +320,8 @@ hlt for vectors  =>  HLT strategy
 spinning, naive and incremental  =>  -
 relations that wait  =>  -
 the 0-hecke algebra  =>  Iwahori-Hecke algebra!0-Hecke algebra
+hook length formula  =>  hook length formula
+hook lengths  =>  hook length formula
 
 ## Part 5
 
@@ -598,6 +600,8 @@ mulgen  =>  -
 coords  =>  -
 leftmat  =>  -
 at_q1  =>  -
+spechtDimension  =>  spechtDimension
+check_specht  =>  -
 # Part 5
 extend!  =>  extend!
 Link  =>  Link
