@@ -211,6 +211,10 @@ cyclic shift classes  =>  cyclic shift
 involution  =>  involution
 involutions  =>  involution
 seen before  =>  -
+poincaré polynomial  =>  Poincare polynomial@Poincaré polynomial
+coxeter element  =>  Coxeter element
+coxeter number  =>  Coxeter number
+poincaré polynomials  =>  Poincare polynomial@Poincaré polynomial
 
 ## Part 3
 
@@ -521,6 +525,13 @@ coxeterMinRep  =>  coxeterMinRep
 coxeterConjugacyClasses  =>  coxeterConjugacyClasses
 cyclic_shifts_with_edges  =>  cyclic_shifts_with_edges
 involutions  =>  involutions
+qint  =>  -
+conv  =>  -
+coxeterNumber  =>  coxeterNumber
+lengthPoly  =>  lengthPoly
+poincareByChain  =>  poincareByChain
+chainFactors  =>  chainFactors
+check_chain  =>  -
 # Part 3
 orbit_and_data  =>  orbit_and_data
 find  =>  find
