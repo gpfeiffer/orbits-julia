@@ -255,6 +255,9 @@ path compression  =>  path compression
 bfs vs. union-find  =>  -
 classes by union-find  =>  -
 labelled union-find  =>  labelled Union-Find
+complex reflection  =>  complex reflection
+complex reflection group  =>  complex reflection group
+degrees  =>  degree (of a reflection group)
 
 ## Part 4
 
