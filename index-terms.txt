@@ -138,6 +138,27 @@ $l \subseteq x^g$  =>  -
 $x^g \subseteq l$  =>  -
 the schreier generators lie in $g_x$  =>  -
 the schreier generators generate $g_x$  =>  -
+graph traversal  =>  graph!traversal
+shortest distance  =>  shortest distance
+orbit with distance  =>  -
+multiple starting points  =>  -
+pólya action  =>  Polya action@Pólya action
+cosets  =>  coset
+subgroups  =>  subgroup
+zuppos  =>  zuppo
+yklische  =>  -
+ntergruppen von  =>  -
+rimzahl  =>  -
+otenz  =>  -
+composition  =>  composition (of a number)
+partition  =>  partition (of a number)
+covers  =>  covering relation
+young lattice  =>  Young lattice
+standard young tableau  =>  standard Young tableau
+shortest path  =>  shortest path
+round trip  =>  round trip
+words from the chain  =>  -
+faster conjugacy classes  =>  -
 
 ## Part 2
 
@@ -184,6 +205,12 @@ forgets the current orbit  =>  -
 supports  =>  -
 canonical representative  =>  conjugacy class!canonical representative
 all the conjugacy classes  =>  conjugacy class
+double cosets  =>  double coset
+conjugate by cyclic shift  =>  cyclic shift
+cyclic shift classes  =>  cyclic shift
+involution  =>  involution
+involutions  =>  involution
+seen before  =>  -
 
 ## Part 3
 
@@ -224,6 +251,10 @@ handle  =>  -
 schreier transversal  =>  Schreier transversal
 correctness  =>  -
 strategies  =>  coset enumeration!strategies
+path compression  =>  path compression
+bfs vs. union-find  =>  -
+classes by union-find  =>  -
+labelled union-find  =>  labelled Union-Find
 
 ## Part 4
 
@@ -275,6 +306,13 @@ left  =>  -
 no coincidences  =>  -
 generic $q$  =>  -
 units  =>  -
+equivalence  =>  equivalence relation
+congruence  =>  congruence
+linear path compression  =>  path compression
+hlt for vectors  =>  HLT strategy
+spinning, naive and incremental  =>  -
+relations that wait  =>  -
+the 0-hecke algebra  =>  Iwahori-Hecke algebra!0-Hecke algebra
 
 ## Part 5
 
@@ -297,6 +335,11 @@ tietze transformations  =>  Tietze transformation
 meataxe  =>  MeatAxe
 type parameter  =>  type parameter (Julia)
 absolute  =>  -
+partition backtrack  =>  partition backtrack
+schreier vectors  =>  Schreier vector
+random schreier-sims  =>  random Schreier-Sims
+set stabilizer  =>  set stabilizer
+nielsen-schreier  =>  Nielsen-Schreier formula
 
 ## Headings
 
@@ -387,7 +430,6 @@ backtrack search  =>  backtrack search
 centralizers  =>  centralizer
 intersections  =>  intersection
 generators of a subgroup  =>  backtrack search!generators of a subgroup
-partition backtrack  =>  backtrack search!partition backtrack
 presentations of subgroups  =>  presentation!of a subgroup
 the meataxe  =>  MeatAxe
 
@@ -432,6 +474,15 @@ onSets  =>  onSets
 orbit_with_images  =>  orbit_with_images
 elts  =>  -
 cyclic  =>  -
+check_words  =>  -
+orbit_with_dist  =>  orbit_with_dist
+orbitx_with_dist  =>  orbitx_with_dist
+cosets  =>  cosets
+zuppos  =>  zuppos
+partitions  =>  partitions
+standardYTs  =>  standardYTs
+wordOfElement  =>  wordOfElement
+conjClasses2  =>  conjClasses2
 # Part 2
 coxeterGraph  =>  coxeterGraph
 cartanMat  =>  cartanMat
@@ -466,6 +517,8 @@ parabolicComplement  =>  parabolicComplement
 minLenCons  =>  minLenCons
 coxeterMinRep  =>  coxeterMinRep
 coxeterConjugacyClasses  =>  coxeterConjugacyClasses
+cyclic_shifts_with_edges  =>  cyclic_shifts_with_edges
+involutions  =>  involutions
 # Part 3
 orbit_and_more  =>  orbit_and_more
 orbit_and_data  =>  orbit_and_data
@@ -494,6 +547,10 @@ onCosets  =>  onCosets
 check_find!  =>  -
 check_classes  =>  -
 check_loops  =>  -
+find!  =>  find!
+classes_by_orbits  =>  classes_by_orbits
+classes_by_union_find  =>  classes_by_union_find
+loops_by_union_find  =>  loops_by_union_find
 # Part 4
 nonzero  =>  -
 SparseVec  =>  SparseVec
@@ -528,6 +585,7 @@ Tw  =>  Tw
 mulgen  =>  -
 coords  =>  -
 leftmat  =>  -
+at_q1  =>  -
 # Part 5
 extend!  =>  extend!
 Link  =>  Link
@@ -549,3 +607,4 @@ check  =>  -
 left_nullspace  =>  left_nullspace
 meataxe  =>  meataxe
 check_cycle_rank  =>  -
+cycle_rank  =>  cycle_rank

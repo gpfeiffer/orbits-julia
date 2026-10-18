@@ -13,9 +13,11 @@ For each chapter notebook:
   3. Move the exercise solutions -- code cells tagged hide-cell and the
      <details> proof blocks -- into an appendix, under their exercise
      numbers, leaving a page reference behind.
-  4. Index the running text (not the preface, the exercises or the
+  4. Index the running text and the exercises (not the preface or the
      solutions): the bold terms and the section headings listed in
-     index-terms.txt, and the functions defined in the code cells.
+     index-terms.txt, the exercise titles, and the functions defined in the
+     code cells.  Entries from the exercises get their page numbers in
+     italics.
   5. Export to LaTeX via nbconvert, with
        - templates/book: a Unicode monospace font, and coloured boxes for
          the notebooks' <div class="alert alert-KIND"> blocks,
@@ -83,6 +85,7 @@ _pandoc_mod.convert_pandoc = _convert_pandoc
 # ── notebook transformations ──────────────────────────────────────────────────
 TITLE_LINE = re.compile(r'^#\s+\d+\.\s+(.*)$', re.MULTILINE)
 EXERCISE = re.compile(r'^\*\*Exercise (\d+\.\d+)')
+EXERCISE_TITLE = re.compile(r'^\*\*Exercise \d+\.\d+\*\*\s*\(([^)$\n]+)\)')
 JULIA_LOGO = re.compile(r'<img src="images/julia\.png"[^>]*>')
 DETAILS = re.compile(r'<details>\s*<summary>(.*?)</summary>\s*', re.DOTALL)
 IMAGE_LINE = re.compile(r'(?m)^(!\[[^\]]*\]\([^)]*\))\n(?=!\[)')
@@ -156,35 +159,50 @@ def read_index_terms():
 
 
 def add_index(nb, terms, headings, functions):
-    """Index the running text of a chapter: the bold terms and the headings
-    listed in index-terms.txt, after the term or the heading, and the
-    functions defined in the code cells that index-terms.txt does not skip,
-    in a raw cell before the code."""
-    def entry(e):
-        return '' if e == '-' else f'\\index{{{e}}}'
+    """Index a chapter: the bold terms and the headings listed in
+    index-terms.txt, after the term or the heading, the exercise titles, and
+    the functions defined in the code cells that index-terms.txt does not
+    skip, in a raw cell before the code.  Entries from the exercises, their
+    text and their stubs, get their page numbers in italics."""
+    def entry(e, page=''):
+        return '' if e == '-' else f'\\index{{{e}{page}}}'
 
-    def bold(m):
-        if LABEL.match(m.group(1)):                     # Theorem, Input, ...
-            return m.group(0)
-        key = m.group(1).lower().rstrip('.:')
+    def lookup(key, what):
         if key not in terms:
-            print(f'  index: bold term not in index-terms.txt: {key!r}')
-        return m.group(0) + entry(terms.get(key, '-'))
+            print(f'  index: {what} not in index-terms.txt: {key!r}')
+        return terms.get(key, '-')
+
+    def bold(page):
+        def sub(m):
+            if LABEL.match(m.group(1)):                 # Theorem, Input, ...
+                return m.group(0)
+            key = m.group(1).strip().lower().rstrip('.:')
+            return m.group(0) + entry(lookup(key, 'bold term'), page)
+        return sub
+
+    def title(m):                                       # Exercise n.m (Title)
+        key = m.group(1).strip().lower()
+        return m.group(0) + entry(lookup(key, 'exercise title'), '|textit')
 
     def heading(m):
         e = entry(headings.get(m.group(1).strip().lower(), '-'))
         return m.group(0) + ('\n' + e if e else '')
 
-    def function(f):
+    def function(f, page=''):
         key = f.replace('!', '"!')                      # makeindex quotes "!"
         tt = key.replace('_', '\\_')
-        return f'\\index{{{key}@\\texttt{{{tt}}}}}'
+        return f'\\index{{{key}@\\texttt{{{tt}}}{page}}}'
 
     cells = []
     for cell in nb.cells:
-        if cell.cell_type == 'markdown' and not EXERCISE.match(cell.source):
-            cell.source = HEADING.sub(heading, BOLD.sub(bold, cell.source))
-        if cell.cell_type == 'code' and '# your code here' not in cell.source:
+        if cell.cell_type == 'markdown':
+            if EXERCISE.match(cell.source):
+                source = BOLD.sub(bold('|textit'), cell.source)
+                cell.source = EXERCISE_TITLE.sub(title, source)
+            else:
+                cell.source = HEADING.sub(heading, BOLD.sub(bold(''), cell.source))
+        if cell.cell_type == 'code':
+            stub = '# your code here' in cell.source      # an exercise asks for it
             names = dict.fromkeys(a or b for a, b in FUNCTION.findall(cell.source))
             for f in names:
                 if f not in functions:
@@ -192,7 +210,7 @@ def add_index(nb, terms, headings, functions):
             names = [f for f in names if functions.get(f) != '-']
             if names:
                 cells.append(nbformat.v4.new_raw_cell(
-                    ''.join(function(f) for f in names),
+                    ''.join(function(f, '|textit' if stub else '') for f in names),
                     metadata={'raw_mimetype': 'text/latex'}))
         cells.append(cell)
     nb.cells = cells
