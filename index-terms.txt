@@ -272,6 +272,10 @@ labelled union-find  =>  labelled Union-Find
 complex reflection  =>  complex reflection
 complex reflection group  =>  complex reflection group
 degrees  =>  degree (of a reflection group)
+knuth classes  =>  Knuth class
+robinson–schensted correspondence  =>  Robinson–Schensted correspondence
+row insertion  =>  Robinson–Schensted correspondence!row insertion
+elementary knuth move  =>  Knuth class!elementary Knuth move
 
 ## Part 4
 
@@ -588,6 +592,9 @@ find!  =>  find!
 classes_by_orbits  =>  classes_by_orbits
 classes_by_union_find  =>  classes_by_union_find
 loops_by_union_find  =>  loops_by_union_find
+rsk  =>  rsk
+knuth_classes  =>  knuth_classes
+check_knuth  =>  -
 # Part 4
 nonzero  =>  -
 SparseVec  =>  SparseVec
