@@ -595,6 +595,8 @@ loops_by_union_find  =>  loops_by_union_find
 rsk  =>  rsk
 knuth_classes  =>  knuth_classes
 check_knuth  =>  -
+swap  =>  -
+reading  =>  -
 # Part 4
 nonzero  =>  -
 SparseVec  =>  SparseVec
