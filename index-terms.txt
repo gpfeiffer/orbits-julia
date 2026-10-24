@@ -276,6 +276,7 @@ knuth classes  =>  Knuth class
 robinson–schensted correspondence  =>  Robinson–Schensted correspondence
 row insertion  =>  Robinson–Schensted correspondence!row insertion
 elementary knuth move  =>  Knuth class!elementary Knuth move
+cells  =>  cell (Kazhdan–Lusztig)
 
 ## Part 4
 
