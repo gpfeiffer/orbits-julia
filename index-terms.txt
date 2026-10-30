@@ -222,6 +222,14 @@ poincaré polynomial  =>  Poincare polynomial@Poincaré polynomial
 coxeter element  =>  Coxeter element
 coxeter number  =>  Coxeter number
 poincaré polynomials  =>  Poincare polynomial@Poincaré polynomial
+words as an orbit  =>  reduced expression
+matsumoto's theorem  =>  Matsumoto's theorem
+braid moves  =>  braid move
+words  =>  -
+commutations  =>  commutation
+commutation classes  =>  commutation class
+fully commutative  =>  fully commutative element
+cyclic  =>  cyclic word
 
 ## Part 3
 
@@ -559,6 +567,16 @@ lengthPoly  =>  lengthPoly
 poincareByChain  =>  poincareByChain
 chainFactors  =>  chainFactors
 check_chain  =>  -
+reducedWords  =>  reducedWords
+isFullyCommutative  =>  isFullyCommutative
+coxeterOrderings  =>  coxeterOrderings
+braidMove  =>  braidMove
+commutationClass  =>  commutationClass
+rotate  =>  -
+occurrences  =>  -
+braidKids  =>  braidKids
+orbit_with_kids  =>  orbit_with_kids
+relations  =>  relations
 # Part 3
 orbit_and_data  =>  orbit_and_data
 find  =>  find
