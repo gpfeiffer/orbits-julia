@@ -57,7 +57,8 @@ TEMPLATE_NAME = 'book'
 LUA_FILTER = TEMPLATE_DIR / TEMPLATE_NAME / 'alerts.lua'
 INDEX_TERMS = ROOT / 'index-terms.txt'
 
-TITLE = 'Computational Aspects of Complex Reflection Groups'
+TITLE = 'Reflection Groups in Action'
+SUBTITLE = 'Algorithms for Orbits, Cosets and Vectors'
 AUTHOR = r'Götz Pfeiffer \\ University of Galway'
 
 PREFACE = 'preface'      # markdown only: not executed, unnumbered
@@ -370,7 +371,7 @@ def main():
     print('[nb2book] assembling book.tex ...', flush=True)
     (BUILD / 'book.tex').write_text('\n'.join([
         adapt_preamble(preamble),
-        f'\\title{{{TITLE}}}',
+        f'\\title{{{TITLE}\\\\[1ex] \\large {SUBTITLE}}}',
         f'\\author{{{AUTHOR}}}',
         # the BFS T-shirt below the author, cropped to the shirt
         '\\date{\\vspace{1cm}\\includegraphics[width=0.7\\textwidth, trim=40 215 45 60, clip]{images/shirtbfs.pdf}}',

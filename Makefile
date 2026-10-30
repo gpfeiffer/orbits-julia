@@ -1,4 +1,4 @@
-# Makefile for "Computational Aspects of Complex Reflection Groups"
+# Makefile for "Reflection Groups in Action: Algorithms for Orbits, Cosets and Vectors"
 #
 #   make             build the book (exports/book.pdf)
 #   make clean       remove _book_build/ and exports/book.pdf
